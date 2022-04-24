@@ -15,9 +15,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void save(User user){
+    public Long save(User user){
         validateDuplicateUser(user);
         userRepository.save(user);
+        return user.getId();
     }
 
     public User getUser(Long id){

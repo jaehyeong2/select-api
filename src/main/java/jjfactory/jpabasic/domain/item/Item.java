@@ -2,6 +2,7 @@ package jjfactory.jpabasic.domain.item;
 
 import jjfactory.jpabasic.domain.BaseTimeEntity;
 import jjfactory.jpabasic.domain.category.Category;
+import jjfactory.jpabasic.exception.NotEnoughStockException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,17 @@ public class Item extends BaseTimeEntity {
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
+
+    //비즈니스 로직
+    public void addStock(int quantity){
+        stockQuantity += quantity;
+    }
+
+    public void removeStock(int quantity){
+        int restStock = stockQuantity - quantity;
+        if(restStock < 0){
+            throw new NotEnoughStockException("need more stock");
+        }
+        stockQuantity = restStock;
+    }
 }
