@@ -52,7 +52,7 @@ public class OrderItem {
         orderItem.setOrderPrice(orderPrice);
         orderItem.setCount(count);
 
-        item.removeStock(count);
+        item.addStock(count);
         return orderItem;
     }
 
@@ -63,7 +63,7 @@ public class OrderItem {
 
     /** 주문 취소 */
     public void cancel() {
-        getItem().addStock(count);
+        getItem().removeStock(count);
     }
 
 

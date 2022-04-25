@@ -4,6 +4,7 @@ import jjfactory.jpabasic.domain.BaseTimeEntity;
 import jjfactory.jpabasic.domain.order.Order;
 import jjfactory.jpabasic.domain.user.Address;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,5 +29,19 @@ public class Delivery extends BaseTimeEntity {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+    private void setAddress(Address address) {
+        this.address = address;
+    }
+
+    private void setStatus(DeliveryStatus ready) {
+        this.status = status;
+    }
+
+    public static Delivery createDelivery(Address address){
+        Delivery delivery = new Delivery();
+        delivery.setAddress(address);
+        delivery.setStatus(DeliveryStatus.READY);
+        return delivery;
     }
 }
