@@ -3,6 +3,7 @@ package jjfactory.jpabasic.domain.order;
 import jjfactory.jpabasic.domain.BaseTimeEntity;
 import jjfactory.jpabasic.domain.OrderItem;
 import jjfactory.jpabasic.domain.delivery.Delivery;
+import jjfactory.jpabasic.domain.delivery.DeliveryStatus;
 import jjfactory.jpabasic.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,12 +33,16 @@ public class Order extends BaseTimeEntity{
     private List<OrderItem> orderItems;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private OrderStatus status;
 
     //==연관관계 메서드==//
-    public void setMember(User user) {
+    public void setUser(User user) {
         this.user = user;
         user.getOrderList().add(this);
+    }
+
+    public void setStatus(OrderStatus status){
+        this.status = status;
     }
 
     public void addOrderItem(OrderItem orderItem){
@@ -48,5 +53,38 @@ public class Order extends BaseTimeEntity{
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
+    }
+
+    //==생성 메서드==//
+    public static Order createOrder(User user,Delivery delivery,OrderItem... orderItems){
+        Order order = new Order();
+        order.setUser(user);
+        order.setDelivery(delivery);
+        for(OrderItem orderItem:orderItems){
+            order.addOrderItem(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        return order;
+    }
+
+    //주문 취소
+    public void cancel(){
+        if(delivery.getStatus() == DeliveryStatus.COMP){
+            throw new IllegalStateException("이미 배송완료된 상품입니다");
+        }
+
+        this.setStatus(OrderStatus.CANCEL);
+        for(OrderItem orderItem : orderItems){
+            orderItem.cancel();
+        }
+    }
+
+    // 전체 주문 가격 조회
+    public int getTotalPrice(){
+        int totalPrice = 0;
+        for(OrderItem orderItem: orderItems){
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
     }
 }

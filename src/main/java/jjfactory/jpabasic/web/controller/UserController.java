@@ -16,7 +16,7 @@ public class UserController {
 
     @GetMapping("/user")
     public ApiRes<?> getUserList(){
-        return new ApiRes<>(userService.getUserList());
+        return new ApiRes<>(userService.findUsers());
     }
 
     @PostMapping("/user")

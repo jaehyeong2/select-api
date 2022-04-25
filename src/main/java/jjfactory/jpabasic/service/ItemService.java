@@ -20,11 +20,11 @@ public class ItemService {
         return item.getId();
     }
 
-    public Item getUser(Long id){
+    public Item findOne(Long id){
         return itemRepository.findOne(id);
     }
 
-    public List<Item> getUserList(){
+    public List<Item> findItems(){
         return itemRepository.findAll();
     }
 }

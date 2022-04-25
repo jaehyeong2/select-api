@@ -5,6 +5,7 @@ import jjfactory.jpabasic.domain.order.Order;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @Table(name = "order_item")
 public class OrderItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="order_item_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,4 +32,39 @@ public class OrderItem {
     public void setOrder(Order order) {
         this.order = order;
     }
+
+    private void setItem(Item item) {
+        this.item = item;
+    }
+
+    private void setOrderPrice(int orderPrice) {
+        this.orderPrice = orderPrice;
+    }
+
+    public int getTotalPrice() {
+        return getOrderPrice() * getCount();
+    }
+
+    //==생성 메서드==//
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count){
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
+
+        item.removeStock(count);
+        return orderItem;
+    }
+
+    private void setCount(int count) {
+        this.count = count;
+    }
+
+
+    /** 주문 취소 */
+    public void cancel() {
+        getItem().addStock(count);
+    }
+
+
 }

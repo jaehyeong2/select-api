@@ -21,15 +21,15 @@ public class UserService {
         return user.getId();
     }
 
-    public User getUser(Long id){
+    public User findUser(Long id){
         return userRepository.findOne(id);
     }
 
-    public List<User> getUserByName(String name){
+    public List<User> findUserByName(String name){
         return userRepository.findByName(name);
     }
 
-    public List<User> getUserList(){
+    public List<User> findUsers(){
         return userRepository.findAll();
     }
 
