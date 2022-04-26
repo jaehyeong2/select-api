@@ -32,4 +32,9 @@ public class User extends BaseTimeEntity{
         this.email = email;
         this.address = address;
     }
+
+    public User(String name, Address address) {
+        this.name = name;
+        this.address = address;
+    }
 }

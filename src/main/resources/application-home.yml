@@ -1,4 +1,12 @@
 spring:
+  spring-doc:
+    api-docs:
+      groups:
+        enabled: true
+    swagger-ui:
+      path: /swagger-ui.html
+      displayRequestDuration: true
+      groups-order: DESC  
   datasource:
     url: jdbc:mariadb://localhost:3306/jpa_basic?serverTimezone=Asia/Seoul
     username: jae
