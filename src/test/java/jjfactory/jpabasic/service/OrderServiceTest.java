@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import static org.assertj.core.api.Assertions.*;
+
 @SpringBootTest
 @Transactional
 //@Rollback(value = true)
@@ -43,10 +45,10 @@ public class OrderServiceTest {
         //then
         Order findOrder = orderRepository.findOne(orderId);
 
-        Assertions.assertThat(findOrder.getStatus()).isEqualTo(OrderStatus.ORDER);
-        Assertions.assertThat(findOrder.getOrderItems().size()).isEqualTo(1);
-        Assertions.assertThat(findOrder.getTotalPrice()).isEqualTo(10000*2);
-        Assertions.assertThat(item.getStockQuantity()).isEqualTo(8);
+        assertThat(findOrder.getStatus()).isEqualTo(OrderStatus.ORDER);
+        assertThat(findOrder.getOrderItems().size()).isEqualTo(1);
+        assertThat(findOrder.getTotalPrice()).isEqualTo(10000*2);
+        assertThat(item.getStockQuantity()).isEqualTo(8);
 
     }
 
@@ -62,8 +64,28 @@ public class OrderServiceTest {
         //when
 
         //then
-        Assertions.assertThatThrownBy( () -> orderService.order(user.getId(), item.getId(), orderCount))
+        assertThatThrownBy( () -> orderService.order(user.getId(), item.getId(), orderCount))
                 .isInstanceOf(NotEnoughStockException.class);
+    }
+
+    @DisplayName("주문 취소")
+    @Test
+    void cancelOrder(){
+        //given
+        User user = createUser();
+        Item item = createBook("harry",10000,10);
+        int orderCount = 2;
+
+        Long orderId = orderService.order(user.getId(), item.getId(), orderCount);
+
+        //when
+        orderService.cancelOrder(orderId);
+
+        //then
+        Order one = orderRepository.findOne(orderId);
+        assertThat(one.getStatus()).isEqualTo(OrderStatus.CANCEL);
+        assertThat(item.getStockQuantity()).isEqualTo(10);
+
     }
 
 
