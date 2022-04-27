@@ -1,4 +1,4 @@
-package jjfactory.jpabasic.exception;
+package jjfactory.jpabasic.error.exception;
 
 public class NotEnoughStockException extends RuntimeException {
 

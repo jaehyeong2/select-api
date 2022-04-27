@@ -2,7 +2,7 @@ package jjfactory.jpabasic.domain.item;
 
 import jjfactory.jpabasic.domain.BaseTimeEntity;
 import jjfactory.jpabasic.domain.category.Category;
-import jjfactory.jpabasic.exception.NotEnoughStockException;
+import jjfactory.jpabasic.error.exception.NotEnoughStockException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

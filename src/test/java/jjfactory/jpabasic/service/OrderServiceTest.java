@@ -6,14 +6,13 @@ import jjfactory.jpabasic.domain.order.Order;
 import jjfactory.jpabasic.domain.order.OrderStatus;
 import jjfactory.jpabasic.domain.user.Address;
 import jjfactory.jpabasic.domain.user.User;
-import jjfactory.jpabasic.exception.NotEnoughStockException;
+import jjfactory.jpabasic.error.exception.NotEnoughStockException;
 import jjfactory.jpabasic.repository.OrderRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
