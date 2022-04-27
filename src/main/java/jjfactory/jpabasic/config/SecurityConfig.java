@@ -7,6 +7,7 @@ import jjfactory.jpabasic.handler.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -23,8 +24,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final TokenProvider tokenProvider;
 
-
-
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+    }
 
     private void invalidTokenException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         log.info("invalidTokenException");
