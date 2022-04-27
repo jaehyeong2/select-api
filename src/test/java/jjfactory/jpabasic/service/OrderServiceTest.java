@@ -6,12 +6,14 @@ import jjfactory.jpabasic.domain.order.Order;
 import jjfactory.jpabasic.domain.order.OrderStatus;
 import jjfactory.jpabasic.domain.user.Address;
 import jjfactory.jpabasic.domain.user.User;
+import jjfactory.jpabasic.exception.NotEnoughStockException;
 import jjfactory.jpabasic.repository.OrderRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -19,6 +21,7 @@ import javax.persistence.PersistenceContext;
 
 @SpringBootTest
 @Transactional
+//@Rollback(value = true)
 public class OrderServiceTest {
 
     @PersistenceContext
@@ -32,7 +35,7 @@ public class OrderServiceTest {
     void order(){
         //given
         User user = createUser();
-        Item item = createBook("해리포터",10000,10);
+        Item item = createBook("harry",10000,10);
         int orderCount = 2;
 
         //when
@@ -48,9 +51,25 @@ public class OrderServiceTest {
 
     }
 
+    @Test
+    @DisplayName("상품줌누_재고수량 초과")
+    void stockOver(){
+        //given
+        User user = createUser();
+        Item item = createBook("harry",10000,10);
+
+        int orderCount = 11;
+
+        //when
+
+        //then
+        Assertions.assertThatThrownBy( () -> orderService.order(user.getId(), item.getId(), orderCount))
+                .isInstanceOf(NotEnoughStockException.class);
+    }
+
 
     User createUser(){
-        User user = new User("유저1",new Address("서울","경기","12345"));
+        User user = new User("user1",new Address("seoul","gwangjin","12345"));
         em.persist(user);
         return user;
     }

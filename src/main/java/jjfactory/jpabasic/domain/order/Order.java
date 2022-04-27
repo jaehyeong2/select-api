@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,7 +31,7 @@ public class Order extends BaseTimeEntity{
     private Delivery delivery;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems;
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
@@ -60,7 +61,7 @@ public class Order extends BaseTimeEntity{
         Order order = new Order();
         order.setUser(user);
         order.setDelivery(delivery);
-        for(OrderItem orderItem:orderItems){
+        for(OrderItem orderItem : orderItems){
             order.addOrderItem(orderItem);
         }
         order.setStatus(OrderStatus.ORDER);

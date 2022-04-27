@@ -5,16 +5,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-@RequiredArgsConstructor
 @Repository
 public class OrderRepository {
 
-    private final EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
-    public Long saVe(Order order){
+    public void save(Order order){
         em.persist(order);
-        return order.getId();
     }
 
     public Order findOne(Long id){

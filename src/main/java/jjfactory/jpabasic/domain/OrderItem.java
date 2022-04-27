@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "order_item")
 public class OrderItem {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="order_item_id")
     private Long id;
@@ -33,12 +34,15 @@ public class OrderItem {
         this.order = order;
     }
 
-    private void setItem(Item item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 
-    private void setOrderPrice(int orderPrice) {
+    public void setOrderPrice(int orderPrice) {
         this.orderPrice = orderPrice;
+    }
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public int getTotalPrice() {
@@ -52,18 +56,14 @@ public class OrderItem {
         orderItem.setOrderPrice(orderPrice);
         orderItem.setCount(count);
 
-        item.addStock(count);
+        item.removeStock(count);
         return orderItem;
-    }
-
-    private void setCount(int count) {
-        this.count = count;
     }
 
 
     /** 주문 취소 */
     public void cancel() {
-        getItem().removeStock(count);
+        getItem().addStock(count);
     }
 
 

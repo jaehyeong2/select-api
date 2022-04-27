@@ -9,9 +9,11 @@ import jjfactory.jpabasic.repository.ItemRepository;
 import jjfactory.jpabasic.repository.OrderRepository;
 import jjfactory.jpabasic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -27,13 +29,12 @@ public class OrderService {
     public Long order(Long userId,Long itemId, int count){
         User user = userRepository.findOne(userId);
         Item item = itemRepository.findOne(itemId);
-
         Delivery delivery = Delivery.createDelivery(user.getAddress());
 
         OrderItem orderItem = OrderItem.createOrderItem(item,item.getPrice(),count);
         Order order = Order.createOrder(user, delivery, orderItem);
 
-        orderRepository.saVe(order);
+        orderRepository.save(order);
         return order.getId();
     }
 
