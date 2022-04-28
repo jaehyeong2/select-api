@@ -4,14 +4,12 @@ import jjfactory.jpabasic.domain.user.Address;
 import jjfactory.jpabasic.domain.user.User;
 import jjfactory.jpabasic.dto.UserForm;
 import jjfactory.jpabasic.service.UserService;
-import jjfactory.jpabasic.web.dto.ApiRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;

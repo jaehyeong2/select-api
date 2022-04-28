@@ -41,6 +41,10 @@ public class Item extends BaseTimeEntity {
         stockQuantity = restStock;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

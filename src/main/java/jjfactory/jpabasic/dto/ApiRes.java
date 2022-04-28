@@ -1,4 +1,4 @@
-package jjfactory.jpabasic.web.dto;
+package jjfactory.jpabasic.dto;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
